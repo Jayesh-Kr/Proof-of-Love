@@ -1,14 +1,14 @@
 .dashboard-container {
     max-width: 64rem;
     margin: 0 auto;
-    margin-top: 10vh;
+    margin-top: 15vh;
 }
 
 .dashboard-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 0;
+    margin-bottom: 2rem;
 }
 
 .dashboard-title {
@@ -38,10 +38,10 @@
 }
 
 .grid-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -55,13 +55,12 @@
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    min-width: 50%;
 }
 
 .card-header {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     margin-bottom: 1rem;
 }
 
@@ -69,16 +68,20 @@
     font-size: 1.5rem;
     font-weight: 600;
     color: #1f2937;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .card-text {
     color: #4b5563;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-top: 10px;
 }
 
 .card-value {
     font-size: 1.5rem;
     font-weight: bold;
     color: #ec4899;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .timeline {
@@ -89,7 +92,7 @@
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin: 1rem 0;
 }
 
 .timeline-icon {
@@ -106,7 +109,9 @@
 .timeline-text {
     font-weight: 600;
     color: #1f2937;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 
 .nft-gallery {
     display: grid;
