@@ -2,10 +2,12 @@
 pragma solidity ^0.8.0;
 import "./PolNFT.sol";
 import "./SendGift.sol";
+import "./LoveStory.sol";
 contract Stake {
 
     PolNFT public polNFT;
     SendGift public sendGift;
+    LoveStory public loveStory;
 
     event Commited(address indexed user, uint startTime, uint amount, uint nftId);
     event WithDraw(address indexed user, uint amount);
@@ -30,9 +32,10 @@ contract Stake {
 
     RelationShipInfo[] public leaderBoard;
 
-    constructor(address _polNFTAddress, address _sendGiftAddress) {
+    constructor(address _polNFTAddress, address _sendGiftAddress,address _loveStoryAddress) {
         polNFT = PolNFT(_polNFTAddress);
         sendGift = SendGift(_sendGiftAddress);
+        loveStory = LoveStory(_loveStoryAddress);
     }
 
     modifier isActiveCheck() {
@@ -163,4 +166,7 @@ contract Stake {
     function claimGifts() public isActiveCheck {
         sendGift.withdrawGifts();
     }
+    function createLovePost(string memory _hashofPost) public isActiveCheck{
+        loveStory.createPost(_hashofPost, msg.sender);
+    } 
 }
