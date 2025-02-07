@@ -1,14 +1,18 @@
 import "./navbar.css";
 import {Heart,Trophy,BookHeart,Gift,Wallet} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar">
-        <div className="nav_part1">
+        <div className="nav_part1" onClick={() => navigate('/')}>
           <Heart/>
           <p className="text-gradient">Proof of Love</p>
         </div>
         <div className="nav_part2">
-          <div className="nav_part2_elem">
+          <div className="nav_part2_elem" onClick={() => navigate('/dashboard')}>
             <Heart/>
             <p>DashBoard</p>
           </div>

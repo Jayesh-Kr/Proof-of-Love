@@ -1,0 +1,86 @@
+.breakup-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  
+  .heart-container {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .broken-heart {
+    width: 6rem;
+    height: 6rem;
+    color: #fecaca;
+    margin: 0 auto;
+  }
+  
+  .heart-crack {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crack-line {
+    width: 2px;
+    height: 100%;
+    background: #fecaca;
+    transform: rotate(45deg);
+  }
+  
+  .breakup-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+  
+  .breakup-text {
+    color: #4b5563;
+    margin-bottom: 2rem;
+  }
+  
+  .transaction-details {
+    color: #6b7280;
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .progress-container {
+    width: 6rem;
+    height: 0.25rem;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    margin: 3rem auto 0;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: #f87171;
+    border-radius: 9999px;
+    animation: progress-animation 5s linear infinite;
+  }
+  
+  @keyframes progress-animation {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
