@@ -7,6 +7,7 @@
 body,html {
   width: 100%;
   max-width: 100%;
+  background-color: #FCF4FC;
 }
 .text-gradient{
   background-image: linear-gradient(to right,#ec4899, #a855f7);
