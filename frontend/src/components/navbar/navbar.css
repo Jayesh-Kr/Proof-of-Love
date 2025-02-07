@@ -1,0 +1,155 @@
+.navbar {
+    padding: 15px 20px;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1000;
+}
+
+.nav_part1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.nav_part1 p {
+    font-weight: 500;
+}
+
+.nav_part1 svg {
+    fill: #EC4899;
+    color: #EC4899;
+}
+
+.nav_part2 {
+    display: flex;
+    gap: 40px;
+}
+
+.nav_part2 .nav_part2_elem {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav_part2_elem:hover p {
+    color: #EC4899;
+}
+
+.nav_part2_elem:hover svg {
+    color: #EC4899;
+}
+
+.nav_part2_elem:hover {
+    background-color: rgba(236, 72, 153, 0.1);
+}
+
+.nav_part2_elem svg {
+    color: gray;
+    width: 20px;
+}
+
+.nav_part2_elem p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    color: gray;
+}
+
+.nav_part3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-image: linear-gradient(to right, #ec4899, #a855f7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: #FEFDFE;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav_part3:hover {
+    opacity: 0.8;
+}
+
+.nav_part3 p {
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav_part3 svg {
+    width: 16px;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .nav_part2 {
+        gap: 20px;
+    }
+
+    .nav_part2 .nav_part2_elem {
+        padding: 8px 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .nav_part1 {
+        font-size: 18px;
+    }
+
+    .nav_part2 {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .nav_part2 .nav_part2_elem {
+        padding: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav_part3 {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .nav_part1 {
+        font-size: 16px;
+    }
+
+    .nav_part2 {
+        gap: 8px;
+    }
+
+    .nav_part2 .nav_part2_elem {
+        font-size: 14px;
+    }
+
+    .nav_part3 p {
+        font-size: 12px;
+    }
+}

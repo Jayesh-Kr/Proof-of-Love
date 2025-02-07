@@ -1,0 +1,38 @@
+/* .floating-hearts-container {
+    position: relative;
+    min-height: calc(100vh - 4rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+} */
+
+.floating-hearts {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    color: #f472b6; /* Pink color */
+    opacity: 0.8;
+    animation: float infinite ease-in-out;
+}
+
+/* Floating animation */
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-40px) rotate(-10deg);
+        opacity: 0;
+    }
+}

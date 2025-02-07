@@ -1,0 +1,119 @@
+.header {
+    width: 100%;
+    background-color: #FCF4FC;
+    margin-top: 10vh;
+    padding: 40px 20px;
+}
+
+
+.landingpage-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+}
+
+.header h1 {
+    padding-top: 50px;
+    font-size: 60px;
+}
+
+.header_p {
+    padding-top: 15px;
+    font-size: 22px;
+    color: gray;
+    text-align: center;
+}
+
+/* Buttons */
+.landingpage_btns {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.landing_btn {
+    background-image: linear-gradient(to right,#ec4899, #a855f7);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 15px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.landing_btn p {
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.landing_btn svg {
+    color: white;
+}
+
+.landing_btn2 {
+    border: 1px solid rgba(236, 72, 153, 0.5);
+    padding: 15px 30px;
+    border-radius: 30px;
+    color: #ec4899;
+    cursor: pointer;
+}
+
+/* Cards Section */
+.cards_section {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    gap: 50px;
+}
+
+
+@media (max-width: 1024px) {
+    .header h1 {
+        font-size: 50px;
+    }
+    .header_p {
+        font-size: 20px;
+    }
+    .landingpage_btns {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 40px;
+    }
+    .header_p {
+        font-size: 18px;
+    }
+    .landingpage_btns {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .cards_section {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 30px;
+        padding-top: 30px;
+    }
+    .header_p {
+        font-size: 16px;
+    }
+    .landing_btn {
+        padding: 12px 24px;
+    }
+    .landing_btn p {
+        font-size: 16px;
+    }
+    .landing_btn2 {
+        padding: 12px 24px;
+    }
+}
