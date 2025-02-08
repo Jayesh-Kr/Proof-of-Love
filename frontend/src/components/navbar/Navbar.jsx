@@ -16,11 +16,11 @@ const Navbar = () => {
             <Heart/>
             <p>DashBoard</p>
           </div>
-          <div className="nav_part2_elem">
+          <div className="nav_part2_elem" onClick={()=>navigate('/leaderboard')}>
             <Trophy/>
             <p>LeaderBoard</p>
           </div>
-          <div className="nav_part2_elem">
+          <div className="nav_part2_elem" onClick={() => navigate('/lovestory')}>
             <BookHeart/>
             <p>Love Stories</p>
           </div>
