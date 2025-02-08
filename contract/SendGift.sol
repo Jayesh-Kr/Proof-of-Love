@@ -11,21 +11,21 @@ contract SendGift {
 
     mapping(address => Gift[]) public gift;
     
-    function sendGift(address receiver,uint256 amount) public payable{
-        require(msg.value > 0 , "Gift cannot be 0");
-        gift[receiver].push(Gift(msg.sender,block.timestamp,amount));
-        emit SendGiftEvent(receiver, msg.sender, amount);
+    function sendGift(address receiver,address sender ,uint256 amount) public payable{
+        require(amount > 0 , "Gift cannot be 0");
+        require(msg.value == amount, "Wrong amount sent");
+        gift[receiver].push(Gift(sender,block.timestamp,amount));
+        emit SendGiftEvent(receiver, sender, amount);
     }
 
     function getReceivedGifts() public view returns(Gift[] memory) {
         return gift[msg.sender];
     }
 
-function withdrawGifts(address user) public payable {
-    uint totalGifts = 0;
-
-    for (uint i = 0; i < gift[user].length; i++) {
-        totalGifts += gift[user][i].amount;
+    function withdrawGifts(address user) public payable {
+        uint totalGifts = 0;
+        for (uint i = 0; i < gift[user].length; i++) {
+            totalGifts += gift[user][i].amount;
     }
 
     require(totalGifts > 0, "No gifts to withdraw");

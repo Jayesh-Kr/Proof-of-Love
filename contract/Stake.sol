@@ -168,7 +168,7 @@ contract Stake {
     }
 
     function sendGiftToUser(address receiver) public payable isCommited(receiver) {
-        sendGift.sendGift(receiver,msg.value);
+        sendGift.sendGift{value : msg.value}(receiver,msg.sender,msg.value);
     }
     function claimGifts() public payable isActiveCheck {
         sendGift.withdrawGifts(msg.sender);
