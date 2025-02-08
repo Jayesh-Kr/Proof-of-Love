@@ -1,10 +1,14 @@
 import  { useState } from 'react';
-import { Timer, Heart, Calendar, AlertTriangle } from 'lucide-react';
+import { Timer, Heart, Calendar, AlertTriangle,Banknote} from 'lucide-react';
 import BreakupModal from '../../components/breakupmodal/BreakupModal';
 import "./dashboard.css";
+import WithdrawModal from '../../components/withdrawmodal/WithdrawModal';
+import StakeModal from '../../components/stakemodal/StakeModal';
 
 const Dashboard = () => {
   const [showBreakupModal, setShowBreakupModal] = useState(false);
+  const [showWithdrawModal , setShowWithdrawModal] = useState(false);
+  const [showStakeModal, setShowStakeModal] = useState(false);
 
   // Mock data - in a real app, this would come from blockchain
   const stakingDuration = "2 years, 3 months";
@@ -15,10 +19,20 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h1 className="dashboard-title text-gradient">Your Love Dashboard</h1>
+        <div className="dashboard_btn">
+        <button onClick={() => setShowStakeModal(true)} className="breakup-button">
+          <Banknote width={16} height={16} />
+          Stake
+        </button>
+        <button onClick={() => setShowWithdrawModal(true)} className="breakup-button">
+          <Banknote width={16} height={16} />
+          Withdraw
+        </button>
         <button onClick={() => setShowBreakupModal(true)} className="breakup-button">
           <AlertTriangle width={16} height={16} />
           Initiate Breakup
         </button>
+        </div>
       </div>
 
       <div className="grid-container">
@@ -74,8 +88,11 @@ const Dashboard = () => {
       </div>
 
       {showBreakupModal && <BreakupModal onClose={() => setShowBreakupModal(false)} />}
+      {showWithdrawModal && <WithdrawModal onClose={()=>setShowWithdrawModal(false)} />}
+      {showStakeModal && <StakeModal onClose={()=>setShowStakeModal(false)} />}
     </div>
   );
 };
+
 
 export default Dashboard;

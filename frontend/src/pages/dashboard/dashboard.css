@@ -140,3 +140,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.dashboard_btn {
+    display: flex;
+    gap: 20px;
+}
