@@ -32,6 +32,18 @@
     cursor: pointer;
 }
 
+.mint-anni-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #fecaca;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
 .breakup-button:hover {
     color: #ef4444;
     border-color: #fecaca;

@@ -4,11 +4,13 @@ import BreakupModal from '../../components/breakupmodal/BreakupModal';
 import "./dashboard.css";
 import WithdrawModal from '../../components/withdrawmodal/WithdrawModal';
 import StakeModal from '../../components/stakemodal/StakeModal';
+import StakeFormModal from '../../components/stakeform/StakeFormModal';
 
 const Dashboard = () => {
   const [showBreakupModal, setShowBreakupModal] = useState(false);
   const [showWithdrawModal , setShowWithdrawModal] = useState(false);
   const [showStakeModal, setShowStakeModal] = useState(false);
+  const [showMintAnniModal, setShowMintAnniModal] = useState(false);
 
   // Mock data - in a real app, this would come from blockchain
   const stakingDuration = "2 years, 3 months";
@@ -57,7 +59,11 @@ const Dashboard = () => {
             <Calendar width={24} height={24} color="#ec4899" />
           </div>
           <p className="card-text">Next Anniversary NFT Mint</p>
-          <p className="card-value">{nextAnniversary}</p>
+          <p className="card-value" style={{margin:"20px 0"}}>{nextAnniversary}</p>
+
+          <button onClick={() => setShowMintAnniModal(true)} className="text-gradient mint-anni-btn">
+          Mint Anniversary NFT
+        </button>
         </div>
       </div>
 
@@ -90,6 +96,7 @@ const Dashboard = () => {
       {showBreakupModal && <BreakupModal onClose={() => setShowBreakupModal(false)} />}
       {showWithdrawModal && <WithdrawModal onClose={()=>setShowWithdrawModal(false)} />}
       {showStakeModal && <StakeModal onClose={()=>setShowStakeModal(false)} />}
+      <StakeFormModal isOpen={showMintAnniModal} onClose={()=>setShowMintAnniModal(false)} title={"Mint your anniversary NFT"} duration={"Anniversary Year"} time={"Enter the year of anniversary"} btnText={"Mint NFT"}/>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X, Upload, Heart } from 'lucide-react';
 import "./stakeformmodal.css";
 // eslint-disable-next-line react/prop-types
-const StakeFormModal = ({ isOpen, onClose }) => {
+const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText }) => {
   const [formData, setFormData] = useState({
     duration: '',
     name: '',
@@ -43,7 +43,7 @@ const StakeFormModal = ({ isOpen, onClose }) => {
           </div>
           <h2 className="stake-form-title text-gradient">Begin Your Love Journey</h2>
           <p className="stake-form-subtitle">
-            Stake your love and create a beautiful NFT memory
+            {title}
           </p>
         </div>
 
@@ -84,14 +84,14 @@ const StakeFormModal = ({ isOpen, onClose }) => {
 
           <div className="stake-form-right">
             <div>
-              <label className="stake-form-label">Duration of Stake (in months)</label>
+              <label className="stake-form-label">{duration}</label>
               <input
                 type="number"
                 min="1"
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 className="stake-form-input"
-                placeholder="Enter duration in months"
+                placeholder={`${time}`}
                 required
               />
             </div>
@@ -134,7 +134,7 @@ const StakeFormModal = ({ isOpen, onClose }) => {
 
             <button type="submit" className="stake-form-submit-btn">
               <Heart className="stake-form-submit-icon" />
-              <span>Stake Your Love</span>
+              <span>{btnText}</span>
             </button>
           </div>
         </form>
