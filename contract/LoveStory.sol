@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.2;
 
 contract LoveStory {
 
@@ -16,10 +16,10 @@ contract LoveStory {
     mapping(address => mapping(uint => bool)) public hasLiked;
     LoveStoryPost[] public story;
 
-    function createPost(string memory _hashofPost) public {
+    function createPost(string memory _hashofPost, address user) public {
         story.push(LoveStoryPost({
             id : story.length,
-            author : msg.sender,
+            author : user,
             hashofPost : _hashofPost,
             likes : 0,
             timestamp : block.timestamp

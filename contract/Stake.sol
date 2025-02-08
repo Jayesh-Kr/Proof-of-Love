@@ -19,7 +19,7 @@ contract Stake {
     mapping(address => uint) public startTime;
     mapping(address => bool) public isActive;
     mapping(address => uint) public duration;
-    mapping(address => uint[]) public userNFTs; // Stores NFT IDs for each user
+    mapping(address => uint[]) public userNFTs;
     mapping(address => mapping(uint => bool)) public anniversaryNFTMinted; // Tracks NFT minting per year
     mapping(address => bool) public hasReceivedFirstNFT; // Tracks if user has received first NFT
     mapping(address => uint) public userIndexInLeaderBoard;
@@ -48,9 +48,17 @@ contract Stake {
         _;
     }
 
+    modifier isCommited(address receiver) {
+        require(isActive[receiver],"User is not commited");
+        _;
+    }
+
     function commit(uint _duration, string memory tokenURI) public payable {
         require(msg.value > 0, "Staked Amt must be > 0");
-
+        if(isActive[msg.sender]) {
+            stakedBalance[msg.sender] += msg.value;
+            return;
+        }
         stakedBalance[msg.sender] += msg.value;
         startTime[msg.sender] = block.timestamp;
         isActive[msg.sender] = true;
@@ -63,10 +71,8 @@ contract Stake {
             userNFTs[msg.sender].push(nftId);
             hasReceivedFirstNFT[msg.sender] = true;
         }
-        if(isActive[msg.sender] && userIndexInLeaderBoard[msg.sender] == 0 && leaderBoard.length == 0) {
             userIndexInLeaderBoard[msg.sender] = leaderBoard.length;
             leaderBoard.push(RelationShipInfo(msg.sender, startTime[msg.sender], duration[msg.sender]));
-        }
 
         emit Commited(msg.sender, block.timestamp, msg.value, nftId);
     }
@@ -134,39 +140,40 @@ contract Stake {
         }
 
         delete userNFTs[msg.sender]; 
+        require(userNFTs[msg.sender].length == 0,"userNFTs length should be zero");
     }
 
     function getLeaderboard() public view returns (RelationShipInfo[] memory) {
-    uint len = leaderBoard.length;
-    RelationShipInfo[] memory sorted = new RelationShipInfo[](len);
+        uint len = leaderBoard.length;
+        RelationShipInfo[] memory sorted = new RelationShipInfo[](len);
 
-    
-    for (uint i = 0; i < len; i++) {
-        sorted[i] = leaderBoard[i];
-        sorted[i].commitedDuration = block.timestamp - sorted[i].commitedTime;
-    }
+        
+        for (uint i = 0; i < len; i++) {
+            sorted[i] = leaderBoard[i];
+            sorted[i].commitedDuration = block.timestamp - sorted[i].commitedTime;
+        }
 
-    // Sort in descending
-    for (uint i = 0; i < len; i++) {
-        for (uint j = i + 1; j < len; j++) {
-            if (sorted[i].commitedDuration < sorted[j].commitedDuration) {
-                RelationShipInfo memory temp = sorted[i];
-                sorted[i] = sorted[j];
-                sorted[j] = temp;
+        // Sort in descending
+        for (uint i = 0; i < len; i++) {
+            for (uint j = i + 1; j < len; j++) {
+                if (sorted[i].commitedDuration < sorted[j].commitedDuration) {
+                    RelationShipInfo memory temp = sorted[i];
+                    sorted[i] = sorted[j];
+                    sorted[j] = temp;
+                }
             }
         }
+
+        return sorted;
     }
 
-    return sorted;
-}
-
-    function sendGiftToUser(address receiver) public isActiveCheck {
-        sendGift.sendGift(receiver);
+    function sendGiftToUser(address receiver) public payable isCommited(receiver) {
+        sendGift.sendGift(receiver,msg.value);
     }
-    function claimGifts() public isActiveCheck {
-        sendGift.withdrawGifts();
+    function claimGifts() public payable isActiveCheck {
+        sendGift.withdrawGifts(msg.sender);
     }
     function createLovePost(string memory _hashofPost) public isActiveCheck{
         loveStory.createPost(_hashofPost, msg.sender);
-    } 
+    }
 }

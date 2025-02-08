@@ -21,4 +21,7 @@ contract PolNFT is ERC721URIStorage {
         require(ownerOf(tokenID) == owner, "You are not the owner");
         _burn(tokenID);
     }
+    function getNFTURI(uint256 tokenID) public view returns (string memory) {
+        return tokenURI(tokenID);
+    }
 }

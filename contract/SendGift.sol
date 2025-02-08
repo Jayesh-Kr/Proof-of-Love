@@ -11,27 +11,27 @@ contract SendGift {
 
     mapping(address => Gift[]) public gift;
     
-    function sendGift(address receiver) public payable{
+    function sendGift(address receiver,uint256 amount) public payable{
         require(msg.value > 0 , "Gift cannot be 0");
-        gift[receiver].push(Gift(msg.sender,block.timestamp,msg.value));
-        emit SendGiftEvent(receiver, msg.sender, msg.value);
+        gift[receiver].push(Gift(msg.sender,block.timestamp,amount));
+        emit SendGiftEvent(receiver, msg.sender, amount);
     }
 
     function getReceivedGifts() public view returns(Gift[] memory) {
         return gift[msg.sender];
     }
 
-    function withdrawGifts() public {
+function withdrawGifts(address user) public payable {
     uint totalGifts = 0;
 
-    for (uint i = 0; i < gift[msg.sender].length; i++) {
-        totalGifts += gift[msg.sender][i].amount;
+    for (uint i = 0; i < gift[user].length; i++) {
+        totalGifts += gift[user][i].amount;
     }
 
     require(totalGifts > 0, "No gifts to withdraw");
 
-    delete gift[msg.sender];
-    (bool success, ) = payable(msg.sender).call{value: totalGifts}("");
+    delete gift[user];
+    (bool success, ) = payable(user).call{value: totalGifts}("");
     require(success, "Gift transfer failed");
 }
 
