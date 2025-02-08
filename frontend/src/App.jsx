@@ -5,6 +5,7 @@ import LandingPage from './pages/landingPage/LandingPage';
 import Breakup from './pages/breakup/Breakup';
 import Leaderboard from './pages/leaderboard/LeaderBoard';
 import LoveStories from './pages/lovestories/LoveStories';
+import Gifts from './pages/gifts/Gifts';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/breakup" element={<Breakup />} />
         <Route path="/leaderboard" element={<Leaderboard/>}/>
         <Route path="/lovestory" element={<LoveStories/>}/>
+        <Route path='/gifts' element={<Gifts/>}/>
       </Routes>
       </div>
     </Router>

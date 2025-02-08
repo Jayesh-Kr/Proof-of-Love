@@ -1,0 +1,152 @@
+.gift-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gift-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.input-box {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #FCE7F3;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-box:focus {
+  border-color: #e91e63;
+  box-shadow: 0px 0px 5px rgba(233, 30, 99, 0.5);
+  outline: none;
+}
+
+.text-area {
+  resize: none;
+  height: 80px;
+}
+
+
+.btn {
+  width: 100%;
+  background: linear-gradient(to right, #ff4081, #7b1fa2);
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 24px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.history-icon {
+  color: #ff4081;
+  width: 24px;
+  height: 24px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  gap: 15px;
+}
+
+.icon-box {
+  width: 40px;
+  height: 40px;
+  background: #ffe0ed;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-icon {
+  color: #ff4081;
+  width: 20px;
+  height: 20px;
+}
+
+.history-text {
+  flex-grow: 1;
+}
+
+.history-description {
+  font-weight: 500;
+  color: #333;
+}
+
+.history-date {
+  font-size: 14px;
+  color: #777;
+}
+
+.history-amount {
+  font-weight: 500;
+  color: #7b1fa2;
+}

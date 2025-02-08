@@ -2,13 +2,16 @@ import FloatingHeart from "../../components/floatingheart/FloatingHeart";
 import LandingPageCard from "../../components/landingpage_card/LandingPageCard";
 import "./landingpage.css";
 import {ArrowRight,Heart,Gift,Trophy} from "lucide-react";
+import StakeFormModal from "../../components/stakeform/StakeFormModal";
+import { useState } from "react";
 const LandingPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <header className="header">
       <FloatingHeart/>
         <h1 className="text-gradient landingpage-text">Immortalize Your Love on the<br/>Blockchain</h1>
         <p className="landingpage-text header_p">Stake your love with ETH, mint beautiful NFT memories, and join a community of eternal <br/>romantics. Because true love deserves to be forever.</p>
-        <div className="landingpage_btns">
+        <div className="landingpage_btns" onClick={()=>setIsModalOpen(true)}>
             <div className="landing_btn">
                 <p>Start Your Love Journey</p>
                 <ArrowRight/>
@@ -20,6 +23,7 @@ const LandingPage = () => {
           <LandingPageCard Logo={Gift} title={"Mint Memories"} description={"Create unique NFTs for your special moments"}/>
           <LandingPageCard Logo={Trophy} title={"Earn Rewards"} description={"Get rewarded for your lasting commitment"}/>
         </div>
+        <StakeFormModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}/>
     </header>
   )
 }

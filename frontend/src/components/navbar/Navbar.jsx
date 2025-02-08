@@ -24,7 +24,7 @@ const Navbar = () => {
             <BookHeart/>
             <p>Love Stories</p>
           </div>
-          <div className="nav_part2_elem">
+          <div className="nav_part2_elem" onClick={()=>navigate('/gifts')}>
             <Gift/>
             <p>Gifts</p>
           </div>

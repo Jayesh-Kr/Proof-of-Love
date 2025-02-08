@@ -1,0 +1,194 @@
+.stake-form-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 1rem;
+  }
+  
+  .stake-form-modal {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+  }
+  
+  .stake-form-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.2s;
+  }
+  
+  .stake-form-close-btn:hover {
+    color: black;
+  }
+  
+  .stake-form-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .stake-form-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: #FDF2F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+  }
+  
+  .stake-form-heart-icon {
+    width: 24px;
+    height: 24px;
+    color: #EC4899;
+  }
+  
+  .stake-form-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .stake-form-subtitle {
+    font-size: 14px;
+    color: gray;
+  }
+  
+  .stake-form-body {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .stake-form-left,
+  .stake-form-right {
+    width: 50%;
+  }
+  
+  .stake-form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .stake-form-input,
+  .stake-form-select,
+  .stake-form-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #FCE7F3;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+  }
+  .stake-form-select {
+    margin-bottom: 20px;
+  }
+  .stake-form-textarea {
+    height: 80px;
+    resize: none;
+  }
+  
+  .stake-form-image-container {
+    position: relative;
+  }
+  
+  .stake-form-image-preview {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .stake-form-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .stake-form-remove-image {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #EF4444;
+    color: white;
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .stake-form-upload-container {
+    position: relative;
+    height: 150px;
+    border: 2px dashed pink;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .stake-form-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .stake-form-upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stake-form-upload-icon {
+    width: 24px;
+    height: 24px;
+    color: gray;
+  }
+  
+  .stake-form-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #ff66b2, #cc33ff);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .stake-form-submit-btn:hover {
+    box-shadow: 0 4px 12px rgba(255, 102, 178, 0.4);
+  }
+  
+  .stake-form-submit-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
