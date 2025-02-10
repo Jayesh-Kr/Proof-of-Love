@@ -27,6 +27,7 @@ contract Stake {
     struct RelationShipInfo {
         address user;
         uint commitedTime;
+        string coupleName;
         uint commitedDuration;
     }
 
@@ -53,7 +54,7 @@ contract Stake {
         _;
     }
 
-    function commit(uint _duration, string memory tokenURI) public payable {
+    function commit(uint _duration,string memory name, string memory tokenURI) public payable {
         require(msg.value > 0, "Staked Amt must be > 0");
         if(isActive[msg.sender]) {
             stakedBalance[msg.sender] += msg.value;
@@ -72,7 +73,7 @@ contract Stake {
             hasReceivedFirstNFT[msg.sender] = true;
         }
             userIndexInLeaderBoard[msg.sender] = leaderBoard.length;
-            leaderBoard.push(RelationShipInfo(msg.sender, startTime[msg.sender], duration[msg.sender]));
+            leaderBoard.push(RelationShipInfo(msg.sender, startTime[msg.sender], name, duration[msg.sender]));
 
         emit Commited(msg.sender, block.timestamp, msg.value, nftId);
     }

@@ -96,7 +96,7 @@ const Dashboard = () => {
       {showBreakupModal && <BreakupModal onClose={() => setShowBreakupModal(false)} />}
       {showWithdrawModal && <WithdrawModal onClose={()=>setShowWithdrawModal(false)} />}
       {showStakeModal && <StakeModal onClose={()=>setShowStakeModal(false)} />}
-      <StakeFormModal isOpen={showMintAnniModal} onClose={()=>setShowMintAnniModal(false)} title={"Mint your anniversary NFT"} duration={"Anniversary Year"} time={"Enter the year of anniversary"} btnText={"Mint NFT"}/>
+      <StakeFormModal isOpen={showMintAnniModal} onClose={()=>setShowMintAnniModal(false)} title={"Mint your anniversary NFT"} duration={"Anniversary Year"} time={"Enter the year of anniversary"} btnText={"Mint NFT"} coupleName={false}/>
     </div>
   );
 };

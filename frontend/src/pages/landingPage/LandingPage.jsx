@@ -23,7 +23,7 @@ const LandingPage = () => {
           <LandingPageCard Logo={Gift} title={"Mint Memories"} description={"Create unique NFTs for your special moments"}/>
           <LandingPageCard Logo={Trophy} title={"Earn Rewards"} description={"Get rewarded for your lasting commitment"}/>
         </div>
-        <StakeFormModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} title={"Stake your love and create a beautiful NFT memory"} duration={"Duration of Stake (in months)"} time={"Enter duration in months"} btnText={"Stake Your Love"} />
+        <StakeFormModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} title={"Stake your love and create a beautiful NFT memory"} duration={"Duration of Stake (in months)"} time={"Enter duration in months"} btnText={"Stake Your Love"} coupleName={true} />
     </header>
   )
 }

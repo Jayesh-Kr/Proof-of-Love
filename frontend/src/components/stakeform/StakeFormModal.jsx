@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { X, Upload, Heart } from 'lucide-react';
 import "./stakeformmodal.css";
 // eslint-disable-next-line react/prop-types
-const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText }) => {
+const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName }) => {
   const [formData, setFormData] = useState({
     duration: '',
+    coupleName: '',
     name: '',
     description: '',
     status: 'Not Married',
@@ -95,6 +96,19 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText }) => {
                 required
               />
             </div>
+            { coupleName && 
+            <div>
+              <label className="stake-form-label">Couple Name</label>
+              <input
+                type="text"
+                value={formData.coupleName}
+                onChange={(e) => setFormData({ ...formData, coupleName: e.target.value })}
+                className="stake-form-input"
+                placeholder="Enter the couple names - John & Alisa"
+                required
+              />
+            </div>
+}
 
             <div>
               <label className="stake-form-label">NFT Name</label>
