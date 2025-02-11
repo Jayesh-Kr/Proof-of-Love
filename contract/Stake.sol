@@ -56,10 +56,7 @@ contract Stake {
 
     function commit(uint _duration,string memory name, string memory tokenURI) public payable {
         require(msg.value > 0, "Staked Amt must be > 0");
-        if(isActive[msg.sender]) {
-            stakedBalance[msg.sender] += msg.value;
-            return;
-        }
+        require(!hasReceivedFirstNFT[msg.sender],"Already Minted");
         stakedBalance[msg.sender] += msg.value;
         startTime[msg.sender] = block.timestamp;
         isActive[msg.sender] = true;
@@ -67,15 +64,18 @@ contract Stake {
 
         // Mint NFT only if this is the first commitment
         uint nftId = 0;
-        if (!hasReceivedFirstNFT[msg.sender]) {
             nftId = polNFT.mintNFT(msg.sender,tokenURI);
             userNFTs[msg.sender].push(nftId);
             hasReceivedFirstNFT[msg.sender] = true;
-        }
             userIndexInLeaderBoard[msg.sender] = leaderBoard.length;
             leaderBoard.push(RelationShipInfo(msg.sender, startTime[msg.sender], name, duration[msg.sender]));
 
         emit Commited(msg.sender, block.timestamp, msg.value, nftId);
+    }
+
+    function stake() public payable isActiveCheck {
+        require(msg.value > 0, "Staked Amt must be > 0");
+        stakedBalance[msg.sender] += msg.value;
     }
 
     function unStakeEth(uint amount) public isActiveCheck balanceCheck(amount) {
