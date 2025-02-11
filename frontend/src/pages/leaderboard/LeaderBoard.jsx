@@ -1,12 +1,19 @@
 import { Search, Heart } from "lucide-react";
 import "./leaderboard.css";
-
+import { useReadContract } from "wagmi";
 const Leaderboard = () => {
   const couples = [
     { id: 1, names: "Alice & Bob", duration: "5 years", amount: "10 ETH" },
     { id: 2, names: "Carol & Dave", duration: "3 years", amount: "8 ETH" },
     { id: 3, names: "Eve & Frank", duration: "2 years", amount: "5 ETH" },
   ];
+
+  const {data:users} = useReadContract({
+    address : "contract Address",
+    abi : "contract abi",
+    functionName : 'getLeaderboard'
+  })
+  console.log([...users]);
 
   return (
     <div className="leaderboard-container">

@@ -1,12 +1,23 @@
 import { Heart, X } from "lucide-react";
 import { useRef } from "react";
+import { parseEther } from "viem";
+import {useWriteContract} from 'wagmi';
 
 // eslint-disable-next-line react/prop-types
 const StakeModal = ({onClose}) => {
-    const withdrawAmt = useRef(0);
+  const {data:hash , writeContract} = useWriteContract();
+    const stakeAmt = useRef(0);
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(withdrawAmt.current?.value);
+      const eth = stakeAmt.current?.value;
+      writeContract({
+        address : "Contract Address",
+        abi : "contract ABI",
+        functionName : 'stake',
+        value : parseEther(eth)
+      })
+      console.log(hash);
+      console.log(stakeAmt.current?.value);
     };
     return (
     <div className="stake-form-overlay fontfamily">
@@ -37,7 +48,7 @@ const StakeModal = ({onClose}) => {
               placeholder="Enter the amount"
               required
               style={{margin:"10px 0"}}
-              ref={withdrawAmt}
+              ref={stakeAmt}
             />
           </div>
   

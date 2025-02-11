@@ -1,16 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangle } from 'lucide-react';
+import { useWriteContract } from 'wagmi';
 import './breakupModal.css';
 
 // eslint-disable-next-line react/prop-types
 const BreakupModal = ({ onClose }) => {
+  const {data:hash ,writeContract} = useWriteContract();
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isBreakingUp, setIsBreakingUp] = useState(false);
   const navigate = useNavigate();
 
   const handleBreakup = async () => {
     if (!isConfirmed) return;
+    writeContract({
+      address : "Contract Address",
+      abi : "contract ABI",
+      functionName : 'breakup'
+    })
+    console.log(hash);
     
     setIsBreakingUp(true);
     setTimeout(() => {

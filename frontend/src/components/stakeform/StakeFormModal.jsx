@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Upload, Heart } from 'lucide-react';
+import {useWriteContract} from 'wagmi';
 import "./stakeformmodal.css";
 // eslint-disable-next-line react/prop-types
 const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName }) => {
@@ -24,8 +25,19 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
     }
   };
 
-  const handleSubmit = (e) => {
+  const {data : hash, writeContract} = useWriteContract();
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // Uploading the photo in IPFS
+    writeContract({
+      address : "Contract Address",
+      abi : "Contract ABI",
+      functionName : 'commit',
+      args : [BigInt(formData.duration*30.5*84000),formData.coupleName,"url of uploaded photo"]
+    })
+    
+    if(hash)
+        console.log(hash);
     console.log(formData);
   };
 
