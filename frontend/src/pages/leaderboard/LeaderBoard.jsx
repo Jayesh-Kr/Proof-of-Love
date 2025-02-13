@@ -57,6 +57,19 @@ const Leaderboard = () => {
     return `${years} years, ${months} months, ${days} days`;
 }
 
+const formatAddress = (address) => {
+  if(!address) return "Connect Wallet";
+  return `${address.slice(0,6)}...${address.slice(-4)}`;
+}
+
+const copyToClipboard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log("Copied to clipboard");
+  } catch (err) {
+    console.error('Failed to copy text: ', err);
+  }
+};
   return (
     <div className="leaderboard-container">
       <div className="leaderboard-header">
@@ -74,6 +87,7 @@ const Leaderboard = () => {
             <div className="couple-info">
               <h3 className="couple-name fontfamily">{couple.coupleName}</h3>
               <p className="couple-duration fontfamily">Staked for {!isPending ? convertSecondsToTime(Number(seconds)-Number(users[index]?.commitedTime)) : "Loading"}</p>
+              <p className="fontfamily" style={{fontWeight:"500",cursor:"pointer"}} onClick={()=>copyToClipboard(couple.user)}>Address : <span className="fontfamily" style={{color:"gray"}}>{formatAddress(couple.user)}</span></p>
             </div>
             <div className="amount-info">
               {/* <p className="amount fontfamily">{couple.amount}</p> */}

@@ -1,8 +1,9 @@
 import { Gift, History } from 'lucide-react';
 import './gifts.css';
 import { useRef } from 'react';
-import {useWriteContract} from 'wagmi';
+import {useReadContract, useWriteContract} from 'wagmi';
 import {stakeConfig} from "../../contractABI/stakeConfig.js";
+import {sendgiftConfig} from "../../contractABI/sendgiftConfig.js"
 import { parseEther } from 'viem';
 const Gifts = () => {
   // Mock data - in a real app, this would come from blockchain
@@ -10,10 +11,17 @@ const Gifts = () => {
     { id: 1, type: "sent", to: "Alice & Bob", amount: "0.5 ETH", date: "Feb 14, 2024" },
     { id: 2, type: "received", from: "Carol & Dave", amount: "0.3 ETH", date: "Jan 1, 2024" }
   ];
-  const {data : hash, writeContract,error} = useWriteContract();
+  const {data : hash, writeContract,error,isPending:sendPending} = useWriteContract();
   const {data : hash2, writeContract:claimwriteContract,error:error2} = useWriteContract();
   const addressRef = useRef("");
   const amtRef = useRef(0);
+
+  const {data:receivedGifts,isPending} = useReadContract({
+    ...sendgiftConfig,
+    functionName : 'getReceivedGifts',
+  })
+if(!isPending) 
+    console.log([...receivedGifts]);
 
   const handleSendGift = () =>{
       const address = addressRef.current.value;
@@ -22,10 +30,13 @@ const Gifts = () => {
         ...stakeConfig,
         functionName : 'sendGiftToUser',
         args : [address],
-        value : parseEther(amount),
+        value : parseEther(amount+""),
       })
-      console.log(hash);
+      addressRef.current.value = "";
+      amtRef.current.value = null;
     }
+    if(!sendPending)
+    console.log(hash);
   const handleClaimGift = () =>{
     claimwriteContract({
       ...stakeConfig,

@@ -20,6 +20,7 @@ const StakeFormModal = ({
     coupleName: "",
     name: "",
     description: "",
+    stakeAmount : 0,
     status: "Not Married",
     image: null,
     imagePreview: "",
@@ -68,7 +69,7 @@ const StakeFormModal = ({
           formData.coupleName,
           uri,
         ],
-        value : parseEther("10")
+        value : parseEther(formData.stakeAmount+"")
       });
       if (hash) console.log(hash);
     } catch (err) {
@@ -157,6 +158,20 @@ const StakeFormModal = ({
               />
             </div>
             {coupleName && (
+              <>
+              <div>
+                <label className="stake-form-label">Stake Amount</label>
+                <input
+                  type="text"
+                  value={formData.stakeAmount}
+                  onChange={(e) =>
+                    setFormData({ ...formData, stakeAmount: e.target.value })
+                  }
+                  className="stake-form-input"
+                  placeholder="Enter the couple names - John & Alisa"
+                  required
+                />
+              </div>
               <div>
                 <label className="stake-form-label">Couple Name</label>
                 <input
@@ -170,6 +185,7 @@ const StakeFormModal = ({
                   required
                 />
               </div>
+              </>
             )}
 
             <div>

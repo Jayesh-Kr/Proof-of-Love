@@ -27,8 +27,10 @@ const Dashboard = () => {
       enabled : callFnc
     }
   });
-  if(!NFT_Pending)
+  if(!NFT_Pending) {
+    console.log("NFT number")
     console.log(NFTArr);
+  }
   if(NFTERR) {
     console.log("Error while fetching NFT number of the user...")
     console.log(NFTERR);
@@ -38,7 +40,7 @@ const Dashboard = () => {
   const {data:NFT_Uri,error,isPending} = useReadContract({
     ...polNFTConfig,
     functionName : 'getNFTURI',
-    args : [1],
+    args : [3],
     query : {
       enabled : callFnc
     }

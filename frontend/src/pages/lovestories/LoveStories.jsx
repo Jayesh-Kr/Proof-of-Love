@@ -3,7 +3,7 @@ import './lovestories.css';
 import {lovestoryConfig} from "../../contractABI/lovestoryConfig.js"
 import { stakeConfig } from '../../contractABI/stakeConfig.js';
 import { useReadContract, useWriteContract } from 'wagmi';
-import crypto from "crypto";
+// import crypto from "crypto";
 import { useRef } from 'react';
 const LoveStories = () => {
   const stories = [
@@ -33,22 +33,22 @@ const LoveStories = () => {
     functionName : 'getAllPost'
   });
   if(!isPending)
-    console.log(post);
+    console.log("post");
   if(error)
     console.log("Error while fetching the posts");
 
-  const hashString = (message) => {
-    return crypto.createHash(message).update(message).digest('hex');
-  }
+  // const hashString = (message) => {
+  //   return crypto.createHash(message).update(message).digest('hex');
+  // }
 
   const handleShareStory = () => {
     try{
       const post = postRef.current.value;
-      const msg = hashString(post);
+      // const msg = hashString(post);
       writeContract({
         ...stakeConfig,
         functionName : 'createLovePost',
-        args : [msg]
+        args : [post] // Create hash then store
       })
       console.log(hash);
     } catch(err) {
@@ -83,20 +83,20 @@ const LoveStories = () => {
       </div>
 
       <div className="stories-list">
-        {stories.map(story => (
-          <div key={story.id} className="lovestory-card story-card">
+        {post?.map(story => (
+          <div key={Number(story.id)} className="lovestory-card story-card">
             <div className="story-header">
-              <div className="avatar fontfamily">{story.author.charAt(0)}</div>
+              <div className="avatar fontfamily">{story.author}</div>
               <div>
                 <h3 className="author fontfamily">{story.author}</h3>
                 <p className="timestamp fontfamily">{story.timestamp}</p>
               </div>
             </div>
             
-            <p className="story-content fontfamily">{story.content}</p>
+            <p className="story-content fontfamily">{story.hashofPost}</p>
             
             <div className="story-actions">
-              <button className="action-button" onClick={handleLikePost}>
+              <button className="action-button" onClick={()=>handleLikePost(Number(story.id))}>
                 <Heart className="icon" />
                 <span>{story.likes}</span>
               </button>
