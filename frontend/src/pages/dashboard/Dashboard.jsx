@@ -1,24 +1,55 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Timer, Heart, Calendar, AlertTriangle,Banknote} from 'lucide-react';
 import BreakupModal from '../../components/breakupmodal/BreakupModal';
 import "./dashboard.css";
 import WithdrawModal from '../../components/withdrawmodal/WithdrawModal';
 import StakeModal from '../../components/stakemodal/StakeModal';
 import StakeFormModal from '../../components/stakeform/StakeFormModal';
-import { useReadContract } from 'wagmi';
+import { useAccount, useReadContract } from 'wagmi';
 import {polNFTConfig} from '../../contractABI/polNFTConfig.js'
 import { stakeConfig } from '../../contractABI/stakeConfig';
+import axios from 'axios';
 const Dashboard = () => {
+  const [callFnc,setCallFnc] = useState(false);
+  useEffect(()=>{
+    setCallFnc(true);
+  },[setCallFnc])
   const [showBreakupModal, setShowBreakupModal] = useState(false);
   const [showWithdrawModal , setShowWithdrawModal] = useState(false);
   const [showStakeModal, setShowStakeModal] = useState(false);
   const [showMintAnniModal, setShowMintAnniModal] = useState(false);
+  const [uriResult, setUriResult] = useState(null);
+  const {address} = useAccount();
+  const {data:NFTArr,error:NFTERR,isPending:NFT_Pending} = useReadContract({
+    ...stakeConfig,
+    functionName : 'getAllNFTs',
+    query : {
+      enabled : callFnc
+    }
+  });
+  if(!NFT_Pending)
+    console.log(NFTArr);
+  if(NFTERR) {
+    console.log("Error while fetching NFT number of the user...")
+    console.log(NFTERR);
+  }
+  
   
   const {data:NFT_Uri,error,isPending} = useReadContract({
-      ...polNFTConfig,
-      functionName : 'getNFTURI',
-      args : [0]
+    ...polNFTConfig,
+    functionName : 'getNFTURI',
+    args : [1],
+    query : {
+      enabled : callFnc
+    }
   });
+  useEffect(()=>{
+    async function getDate() {
+      return axios.get(NFT_Uri);
+    }
+    getDate().then((res)=>{console.log(res.data.name);setUriResult(res.data)}).catch(()=>console.log("error while getting date"));
+  },[NFT_Uri])
+
   if(!isPending)
     console.log(NFT_Uri);
   if(error)
@@ -26,13 +57,46 @@ const Dashboard = () => {
   const {data:stakedAmt , error:stakeError} = useReadContract({
       ...stakeConfig,
       functionName : 'stakedBalance',
+      args : [address],
+      query : {
+        enabled : callFnc
+      }
   });
   if(stakeError)
       console.log("Error in get Staked amount : ",stakeError);
   // Mock data - in a real app, this would come from blockchain
-  const stakingDuration = "2 years, 3 months";
-  const stakingAmount = stakedAmt || "2.5 ETH";
-  const nextAnniversary = "March 15, 2025";
+
+  function getDurationSince(dateString) {
+    const anniversaryDate = new Date(dateString);
+    const currentDate = new Date();
+
+    let years = currentDate.getFullYear() - anniversaryDate.getFullYear();
+    let months = currentDate.getMonth() - anniversaryDate.getMonth();
+    let days = currentDate.getDate() - anniversaryDate.getDate();
+
+    if (days < 0) {
+        months -= 1;
+        days += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    return `${years} years, ${months} months, ${days} days`;
+}
+const anniversaryDate = uriResult?.attributes?.find(attr => attr.trait_type === "Anniversary")?.value;
+const imageURL = uriResult?.image;
+
+// Calculating the duration
+  const stakingDuration = getDurationSince(anniversaryDate) || "2 years, 3 months";
+  const stakingAmount = stakedAmt !== undefined && stakedAmt !== null 
+  ? `${Number(stakedAmt) / 1e18} ETH` 
+  : "2.5 ETH";
+
+  let date = new Date(anniversaryDate);
+  date.setFullYear(date.getFullYear()+1);
+  const nextAnniversary = date.toDateString() || "March 15, 2025";
 
   return (
     <div className="dashboard-container">
@@ -93,16 +157,19 @@ const Dashboard = () => {
             </div>
             <div>
               <p className="timeline-text">First Year Anniversary NFT Minted</p>
-              <p className="card-text">March 15, 2024</p>
+              <p className="card-text">{anniversaryDate}</p>
             </div>
           </div>
         ))}
       </div>
 
       <div className="cards">
-        <h2 className="card-title">Your NFT Gallery</h2>
+        <h2 className="card-title">Your NFT Gallery</h2> 
         <div className="nft-gallery">
-          {[1, 2, 3].map((i) => (
+        <div className="nft-card" style={{backgroundImage:`url(${imageURL})`, backgroundSize:"cover"}}> 
+              {/* FIX this */}
+          </div>
+          {[1, 2].map((i) => (
             <div key={i} className="nft-card">
               <Heart width={48} height={48} color="#ec4899" />
             </div>

@@ -15,7 +15,7 @@ const StakeModal = ({onClose}) => {
       writeContract({
         ...stakeConfig,
         functionName : 'stake',
-        value : parseEther(eth)
+        value : parseEther(eth+"")
       })
       console.log(hash);
       console.log(stakeAmt.current?.value);

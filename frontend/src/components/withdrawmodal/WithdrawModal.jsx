@@ -16,7 +16,7 @@ const WithdrawModal = ({onClose}) => {
       writeContract({
         ...stakeConfig,
         functionName : 'unStakeEth',
-        args : [parseEther(amount)]
+        args : [parseEther(amount+"")]
       });
       console.log(hash);
       console.log(withdrawAmt.current?.value);

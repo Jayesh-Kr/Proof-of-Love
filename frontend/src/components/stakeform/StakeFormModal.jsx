@@ -5,6 +5,7 @@ import { useWriteContract } from "wagmi";
 import "./stakeformmodal.css";
 import pinata from "../../helper/pinataWeb3";
 import {stakeConfig} from "../../contractABI/stakeConfig.js";
+import { parseEther } from "viem";
 const StakeFormModal = ({
   isOpen,
   onClose,
@@ -40,6 +41,7 @@ const StakeFormModal = ({
     try {
       console.log("Write contract called");
       e.preventDefault();
+      console.log(formData);
       // Uploading the photo in IPFS
       const upload = await pinata.upload.file(formData.image);
       console.log(upload);
@@ -66,9 +68,9 @@ const StakeFormModal = ({
           formData.coupleName,
           uri,
         ],
+        value : parseEther("10")
       });
       if (hash) console.log(hash);
-      console.log(formData);
     } catch (err) {
       console.log("Error in Commiting");
       console.log(err);
