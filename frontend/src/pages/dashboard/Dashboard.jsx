@@ -5,16 +5,33 @@ import "./dashboard.css";
 import WithdrawModal from '../../components/withdrawmodal/WithdrawModal';
 import StakeModal from '../../components/stakemodal/StakeModal';
 import StakeFormModal from '../../components/stakeform/StakeFormModal';
-
+import { useReadContract } from 'wagmi';
+import {polNFTConfig} from '../../contractABI/polNFTConfig.js'
+import { stakeConfig } from '../../contractABI/stakeConfig';
 const Dashboard = () => {
   const [showBreakupModal, setShowBreakupModal] = useState(false);
   const [showWithdrawModal , setShowWithdrawModal] = useState(false);
   const [showStakeModal, setShowStakeModal] = useState(false);
   const [showMintAnniModal, setShowMintAnniModal] = useState(false);
-
+  
+  const {data:NFT_Uri,error,isPending} = useReadContract({
+      ...polNFTConfig,
+      functionName : 'getNFTURI',
+      args : [0]
+  });
+  if(!isPending)
+    console.log(NFT_Uri);
+  if(error)
+    console.log("Error in getting NFT URI : " , error);
+  const {data:stakedAmt , error:stakeError} = useReadContract({
+      ...stakeConfig,
+      functionName : 'stakedBalance',
+  });
+  if(stakeError)
+      console.log("Error in get Staked amount : ",stakeError);
   // Mock data - in a real app, this would come from blockchain
   const stakingDuration = "2 years, 3 months";
-  const stakingAmount = "2.5 ETH";
+  const stakingAmount = stakedAmt || "2.5 ETH";
   const nextAnniversary = "March 15, 2025";
 
   return (

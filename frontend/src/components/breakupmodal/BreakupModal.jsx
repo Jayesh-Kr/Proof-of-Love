@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangle } from 'lucide-react';
 import { useWriteContract } from 'wagmi';
+import {stakeConfig} from "../../contractABI/stakeConfig.js"
 import './breakupModal.css';
 
 // eslint-disable-next-line react/prop-types
@@ -12,10 +13,10 @@ const BreakupModal = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleBreakup = async () => {
+    try {
     if (!isConfirmed) return;
     writeContract({
-      address : "Contract Address",
-      abi : "contract ABI",
+      ...stakeConfig,
       functionName : 'breakup'
     })
     console.log(hash);
@@ -25,6 +26,10 @@ const BreakupModal = ({ onClose }) => {
       setIsBreakingUp(false);
       navigate('/breakup');
     }, 2000);
+  } catch(err) {
+    console.log("Error while Breakup");
+    console.log(err);
+  }
   };
 
   return (

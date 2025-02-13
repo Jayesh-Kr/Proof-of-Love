@@ -1,17 +1,27 @@
-import { useState } from 'react';
-import { X, Upload, Heart } from 'lucide-react';
-import {useWriteContract} from 'wagmi';
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import { X, Upload, Heart } from "lucide-react";
+import { useWriteContract } from "wagmi";
 import "./stakeformmodal.css";
-// eslint-disable-next-line react/prop-types
-const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName }) => {
+import pinata from "../../helper/pinataWeb3";
+import {stakeConfig} from "../../contractABI/stakeConfig.js";
+const StakeFormModal = ({
+  isOpen,
+  onClose,
+  title,
+  duration,
+  time,
+  btnText,
+  coupleName,
+}) => {
   const [formData, setFormData] = useState({
-    duration: '',
-    coupleName: '',
-    name: '',
-    description: '',
-    status: 'Not Married',
+    duration: "",
+    coupleName: "",
+    name: "",
+    description: "",
+    status: "Not Married",
     image: null,
-    imagePreview: ''
+    imagePreview: "",
   });
 
   const handleImageChange = (e) => {
@@ -20,25 +30,49 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
       setFormData({
         ...formData,
         image: file,
-        imagePreview: URL.createObjectURL(file)
+        imagePreview: URL.createObjectURL(file),
       });
     }
   };
 
-  const {data : hash, writeContract} = useWriteContract();
+  const { data: hash, writeContract } = useWriteContract();
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Uploading the photo in IPFS
-    writeContract({
-      address : "Contract Address",
-      abi : "Contract ABI",
-      functionName : 'commit',
-      args : [BigInt(formData.duration*30.5*84000),formData.coupleName,"url of uploaded photo"]
-    })
-    
-    if(hash)
-        console.log(hash);
-    console.log(formData);
+    try {
+      console.log("Write contract called");
+      e.preventDefault();
+      // Uploading the photo in IPFS
+      const upload = await pinata.upload.file(formData.image);
+      console.log(upload);
+      const imageURL = `https://orange-given-mink-808.mypinata.cloud/ipfs/${upload.IpfsHash}`;
+      const today = new Date().toISOString().split("T")[0];
+
+      const tokenMetadata = {
+        name: formData.name,
+        description: formData.description,
+        image: imageURL,
+        attributes: [
+          { trait_type: "Couple", value: formData.coupleName || "Couple" }, // Fix:
+          { trait_type: "Anniversary", value: today },
+          { trait_type: "Status", value: formData.status },
+        ],
+      };
+      const pinataRes = await pinata.upload.json(tokenMetadata);
+      const uri = `https://orange-given-mink-808.mypinata.cloud/ipfs/${pinataRes.IpfsHash}`;
+      writeContract({
+        ...stakeConfig,
+        functionName: "commit",
+        args: [
+          BigInt(formData.duration * 30.5 * 84000),
+          formData.coupleName,
+          uri,
+        ],
+      });
+      if (hash) console.log(hash);
+      console.log(formData);
+    } catch (err) {
+      console.log("Error in Commiting");
+      console.log(err);
+    }
   };
 
   if (!isOpen) return null;
@@ -54,10 +88,10 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
           <div className="stake-form-icon-wrapper">
             <Heart className="stake-form-heart-icon" fill="currentColor" />
           </div>
-          <h2 className="stake-form-title text-gradient">Begin Your Love Journey</h2>
-          <p className="stake-form-subtitle">
-            {title}
-          </p>
+          <h2 className="stake-form-title text-gradient">
+            Begin Your Love Journey
+          </h2>
+          <p className="stake-form-subtitle">{title}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="stake-form-body">
@@ -66,10 +100,20 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
             <div className="stake-form-image-container">
               {formData.imagePreview ? (
                 <div className="stake-form-image-preview">
-                  <img src={formData.imagePreview} alt="Preview" className="stake-form-image" />
+                  <img
+                    src={formData.imagePreview}
+                    alt="Preview"
+                    className="stake-form-image"
+                  />
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, image: null, imagePreview: '' })}
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        image: null,
+                        imagePreview: "",
+                      })
+                    }
                     className="stake-form-remove-image"
                   >
                     <X className="stake-form-icon" />
@@ -102,32 +146,38 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
                 type="number"
                 min="1"
                 value={formData.duration}
-                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, duration: e.target.value })
+                }
                 className="stake-form-input"
                 placeholder={`${time}`}
                 required
               />
             </div>
-            { coupleName && 
-            <div>
-              <label className="stake-form-label">Couple Name</label>
-              <input
-                type="text"
-                value={formData.coupleName}
-                onChange={(e) => setFormData({ ...formData, coupleName: e.target.value })}
-                className="stake-form-input"
-                placeholder="Enter the couple names - John & Alisa"
-                required
-              />
-            </div>
-}
+            {coupleName && (
+              <div>
+                <label className="stake-form-label">Couple Name</label>
+                <input
+                  type="text"
+                  value={formData.coupleName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, coupleName: e.target.value })
+                  }
+                  className="stake-form-input"
+                  placeholder="Enter the couple names - John & Alisa"
+                  required
+                />
+              </div>
+            )}
 
             <div>
               <label className="stake-form-label">NFT Name</label>
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="stake-form-input"
                 placeholder="Give your NFT a romantic name"
                 required
@@ -138,7 +188,9 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
               <label className="stake-form-label">Description</label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 className="stake-form-textarea"
                 placeholder="Tell your love story..."
                 required
@@ -149,7 +201,9 @@ const StakeFormModal = ({ isOpen, onClose,title,duration,time,btnText,coupleName
               <label className="stake-form-label">Relationship Status</label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="stake-form-select"
                 required
               >

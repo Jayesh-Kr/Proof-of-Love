@@ -150,3 +150,9 @@
   font-weight: 500;
   color: #7b1fa2;
 }
+
+#gift_send {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

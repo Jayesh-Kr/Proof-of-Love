@@ -7,26 +7,29 @@ async function main() {
   // Deploy Contract A
   const ContractA = await hre.ethers.getContractFactory("LoveStory");
   const contractA = await ContractA.deploy();
-  await contractA.deployed();
-  console.log(`LoveStory deployed at: ${contractA.address}`);
+  await contractA.waitForDeployment();
+  console.log(`LoveStory deployed at: ${await contractA.getAddress()}`);
 
   // Deploy Contract B
   const ContractB = await hre.ethers.getContractFactory("PolNFT");
   const contractB = await ContractB.deploy();
-  await contractB.deployed();
-  console.log(`PolNFT deployed at: ${contractB.address}`);
+  await contractB.waitForDeployment();
+  console.log(`PolNFT deployed at: ${await contractB.getAddress()}`);
 
   // Deploy Contract C
   const ContractC = await hre.ethers.getContractFactory("SendGift");
   const contractC = await ContractC.deploy();
-  await contractC.deployed();
-  console.log(`SendGift deployed at: ${contractC.address}`);
+  await contractC.waitForDeployment();
+  console.log(`SendGift deployed at: ${await contractC.getAddress()}`);
 
   // Deploy Contract D (Requires A, B, C addresses)
   const ContractD = await hre.ethers.getContractFactory("Stake");
-  const contractD = await ContractD.deploy(contractA.address, contractB.address, contractC.address);
-  await contractD.deployed();
-  console.log(`Stake deployed at: ${contractD.address}`);
+  const addressContractA = await contractA.getAddress();
+  const addressContractB = await contractB.getAddress();
+  const addressContractC = await contractC.getAddress();
+  const contractD = await ContractD.deploy(addressContractB,addressContractC,addressContractA);
+  await contractD.waitForDeployment();
+  console.log(`Stake deployed at: ${await contractD.getAddress()}`);
 }
 
 // Execute script

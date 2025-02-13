@@ -1,6 +1,7 @@
 import { Search, Heart } from "lucide-react";
 import "./leaderboard.css";
 import { useReadContract } from "wagmi";
+import { stakeConfig } from "../../contractABI/stakeConfig";
 const Leaderboard = () => {
   const couples = [
     { id: 1, names: "Alice & Bob", duration: "5 years", amount: "10 ETH" },
@@ -8,12 +9,14 @@ const Leaderboard = () => {
     { id: 3, names: "Eve & Frank", duration: "2 years", amount: "5 ETH" },
   ];
 
-  const {data:users} = useReadContract({
-    address : "contract Address",
-    abi : "contract abi",
+  const {data:users,error,isPending} = useReadContract({
+    ...stakeConfig,
     functionName : 'getLeaderboard'
   })
-  console.log([...users]);
+  if(error)
+    console.log("Error while getting leaderBoard");
+  if(!isPending)
+    console.log(users);
 
   return (
     <div className="leaderboard-container">

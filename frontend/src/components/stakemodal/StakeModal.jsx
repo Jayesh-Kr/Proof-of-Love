@@ -2,22 +2,27 @@ import { Heart, X } from "lucide-react";
 import { useRef } from "react";
 import { parseEther } from "viem";
 import {useWriteContract} from 'wagmi';
+import {stakeConfig} from "../../contractABI/stakeConfig.js";
 
 // eslint-disable-next-line react/prop-types
 const StakeModal = ({onClose}) => {
   const {data:hash , writeContract} = useWriteContract();
     const stakeAmt = useRef(0);
     const handleSubmit = (e) => {
+      try {
       e.preventDefault();
       const eth = stakeAmt.current?.value;
       writeContract({
-        address : "Contract Address",
-        abi : "contract ABI",
+        ...stakeConfig,
         functionName : 'stake',
         value : parseEther(eth)
       })
       console.log(hash);
       console.log(stakeAmt.current?.value);
+    } catch(err) {
+      console.log("Error in staking more");
+      console.log(err);
+    }
     };
     return (
     <div className="stake-form-overlay fontfamily">

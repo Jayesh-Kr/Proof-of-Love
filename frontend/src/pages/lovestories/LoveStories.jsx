@@ -1,6 +1,10 @@
-import { Heart, MessageCircle} from 'lucide-react';
+import { Heart} from 'lucide-react';
 import './lovestories.css';
-
+import {lovestoryConfig} from "../../contractABI/lovestoryConfig.js"
+import { stakeConfig } from '../../contractABI/stakeConfig.js';
+import { useReadContract, useWriteContract } from 'wagmi';
+import crypto from "crypto";
+import { useRef } from 'react';
 const LoveStories = () => {
   const stories = [
     {
@@ -21,6 +25,47 @@ const LoveStories = () => {
     }
   ];
 
+  const postRef = useRef("");
+  const {data:hash,writeContract} = useWriteContract();
+  const {data:hash2,writeContract:likewriteContract} = useWriteContract();
+  const {data:post,isPending,error} = useReadContract({
+    ...lovestoryConfig,
+    functionName : 'getAllPost'
+  });
+  if(!isPending)
+    console.log(post);
+  if(error)
+    console.log("Error while fetching the posts");
+
+  const hashString = (message) => {
+    return crypto.createHash(message).update(message).digest('hex');
+  }
+
+  const handleShareStory = () => {
+    try{
+      const post = postRef.current.value;
+      const msg = hashString(post);
+      writeContract({
+        ...stakeConfig,
+        functionName : 'createLovePost',
+        args : [msg]
+      })
+      console.log(hash);
+    } catch(err) {
+      console.log("Error in creating post...");
+      console.log(err);
+    }
+  }
+
+  const handleLikePost = (_id) => {
+    likewriteContract({
+      ...lovestoryConfig,
+      functionName : 'likePost',
+      args : [_id]
+    })
+    console.log(hash2);
+  }
+
   return (
     <div className="container">
       <h1 className="title text-gradient fontfamily">Love Stories</h1>
@@ -30,9 +75,10 @@ const LoveStories = () => {
         <textarea
           placeholder="Write your love story..."
           className="story-input fontfamily"
+          ref={postRef}
         />
         <div className="button-container">
-          <button className="share-button fontfamily">Share Story</button>
+          <button className="share-button fontfamily" onClick={handleShareStory}>Share Story</button>
         </div>
       </div>
 
@@ -50,13 +96,9 @@ const LoveStories = () => {
             <p className="story-content fontfamily">{story.content}</p>
             
             <div className="story-actions">
-              <button className="action-button">
+              <button className="action-button" onClick={handleLikePost}>
                 <Heart className="icon" />
                 <span>{story.likes}</span>
-              </button>
-              <button className="action-button">
-                <MessageCircle className="icon" />
-                <span>{story.comments}</span>
               </button>
             </div>
           </div>

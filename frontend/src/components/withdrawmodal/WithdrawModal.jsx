@@ -2,23 +2,28 @@ import { AlertTriangle, Heart, X } from "lucide-react";
 import { useRef } from "react";
 import {useWriteContract} from 'wagmi';
 import {parseEther} from 'viem';
+import {stakeConfig} from '../../contractABI/stakeConfig.js'
 // eslint-disable-next-line react/prop-types
 const WithdrawModal = ({onClose}) => {
   const {data:hash , writeContract} = useWriteContract();
     const withdrawAmt = useRef(0);
     const handleSubmit = (e) => {
+      try {
       e.preventDefault();
       const amount = withdrawAmt.current?.value;
       console.log(BigInt(amount));
       console.log(parseEther(amount));
       writeContract({
-        address : "contract address",
-        abi : 'Contract ABI',
+        ...stakeConfig,
         functionName : 'unStakeEth',
         args : [parseEther(amount)]
       });
       console.log(hash);
       console.log(withdrawAmt.current?.value);
+    } catch(err) {
+      console.log("Error in unstaking eth");
+      console.log(err);
+    }
     };
     return (
     <div className="stake-form-overlay fontfamily">

@@ -12,7 +12,7 @@ const Navbar = () => {
   const {connect,connectors} = useConnect();
 
   const handleConnectorClick = (connector) => {
-    console.log(connector);
+    // console.log(connector);
     connect({connector});
     setConnected(true);
     setShowDropdown(false);
